@@ -9,12 +9,11 @@ import numpy as np
 import pandas as pd
 import nltk
 nltk.download("stopwords")
+nltk.download('punkt')
 import os
 import string
 import re
 from nltk.stem import *
-import nltk
-
 import math
 
 from nltk.corpus import stopwords
