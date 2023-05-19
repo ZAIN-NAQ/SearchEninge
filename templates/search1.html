@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+body {
+    min-height: 100%;
+    position: relative;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+.searchresult h2 {
+    font-size: 19px;
+    line-height: 18px;
+    font-weight: normal;
+    color: rgb(29, 1, 189);
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
+
+.searchresult a {
+    font-size: 14px;
+    line-height: 14px;
+    color: green;
+    margin-bottom: 0px;
+}
+
+.searchresult button {
+    font-size: 10px;
+    line-height: 14px;
+    color: green;
+    margin-bottom: 0px;
+    padding: 0px;
+    border-width: 0px;
+    background-color: white;
+}
+
+.searchresult p {
+    width: 625px;
+    font-size: 13px;
+    margin-top: 0px;
+    color: rgb(82, 82, 82);
+}
+
+</style>
+</head>
+<h1> Published Articles/Papers <h1>
+<body>
+{% for dict_item in foobar %}
+   {% for key, value in dict_item.items() %}
+      <div class="searchresult">
+            {% if 'PublicationLink' in key %}
+               <p><a href="{{value}}">{{value}}<a></p>
+            {% elif 'AuthorProfile' in key %}
+               <a href={{value}}>{{value}}<a> <button>▼</button>
+            {% else %}
+               <h2>{{value}}<h2>      
+            {% endif %}
+      </div>
+   {% endfor %}
+   -------------------------------------------------------------------
+{% endfor %}
+
+</body>
+</html>

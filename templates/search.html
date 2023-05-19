@@ -1,0 +1,24 @@
+
+<html>
+ <head>
+  <title>Test App</title>
+</head>
+<body>
+
+
+{% for dict_item in foobar %}
+   {% for key, value in dict_item.items() %}
+      <h1>{{key}}</h1>
+      {% if 'PublicationLink' in key %}
+         <a href={{value}}>{{value}}<a>
+      {% elif 'AuthorProfile' in key %}
+          <a href={{value}}>{{value}}<a>  
+      {% else %}
+           <p1>{{value}}<p1>      
+      {% endif %}
+   {% endfor %}
+{% endfor %}
+
+</body>
+</html>
+
