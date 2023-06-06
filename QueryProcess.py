@@ -8,23 +8,54 @@ import preprocandindexfuncs as func
 import pickle
 import math
 import operator
+from azure.storage.blob import BlobServiceClient
+import pickle
+
+#Azure Blob Storage connection details
+connection_string = "DefaultEndpointsProtocol=https;AccountName=searchenginestrg;AccountKey=LB3Y3pG2mzMkxYzE6M8fBHuspzJTOTR+NZlm3Dv29jSsAszGmY111rLntxYAsZR82p/Wh3y/jGZ2+AStWWThUQ==;EndpointSuffix=core.windows.net"
+container_name = "searchenginepickle"
+idfscores_blob_name = "idf_scores.pkl"
+scores_blob_name = "scores.pkl"
+invertedindex_blob_name = "inverted_index.pkl"
+
+#BlobServiceClient object using the connection string
+blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+#Reference to the container
+container_client = blob_service_client.get_container_client(container_name)
+
+
 
 
 def QueryResults(search):
     
-    
+    # Download and load the idfscores.pickle file
+    idfscores_blob_client = container_client.get_blob_client(idfscores_blob_name)
+    idfscores_data = idfscores_blob_client.download_blob().readall()
+    idf = pickle.loads(idfscores_data)
+
+    # Download and load the scores.pickle file
+    scores_blob_client = container_client.get_blob_client(scores_blob_name)
+    scores_data = scores_blob_client.download_blob().readall()
+    scores = pickle.loads(scores_data)
+
+    # Download and load the invertedindex.pickle file
+    invertedindex_blob_client = container_client.get_blob_client(invertedindex_blob_name)
+    invertedindex_data = invertedindex_blob_client.download_blob().readall()
+    invertedindex = pickle.loads(invertedindex_data)
     #print(data)
-    qr=search
-    #qr=r'C:\Users\zainh\Desktop\qquery.txt'
-    query=func.query_preproces(qr)
-    with open("idfscores.pickle", "rb") as file:
-        idf = pickle.load(file)
-        
-    with open("scores.pickle", "rb") as file:
-        scores = pickle.load(file)
     
-    with open("invertedindex.pickle", "rb") as file:
-        invertedindex = pickle.load(file)
+    qr=search #Query from the web page
+    #qr=r'C:\Users\zainh\Desktop\qquery.txt'
+    query=func.query_preproces(qr)  # Preprocess the Query 
+    #with open("idfscores.pickle", "rb") as file:
+    #    idf = pickle.load(file)
+        
+    #with open("scores.pickle", "rb") as file:
+    #    scores = pickle.load(file)
+    
+   # with open("invertedindex.pickle", "rb") as file:
+    #    invertedindex = pickle.load(file)
        
     query_scores=func.tfidfCalculatorQuery(query,idf)
     query_docs = {}
