@@ -7,6 +7,7 @@ Created on Sat Jul 23 21:16:49 2022
 import preprocandindexfuncs as func
 import pickle
 import math
+import io
 import operator
 from azure.storage.blob import BlobServiceClient
 import pickle
@@ -14,9 +15,9 @@ import pickle
 #Azure Blob Storage connection details
 connection_string = "DefaultEndpointsProtocol=https;AccountName=searchenginestrg;AccountKey=LB3Y3pG2mzMkxYzE6M8fBHuspzJTOTR+NZlm3Dv29jSsAszGmY111rLntxYAsZR82p/Wh3y/jGZ2+AStWWThUQ==;EndpointSuffix=core.windows.net"
 container_name = "searchenginepickle"
-idfscores_blob_name = "idf_scores.pkl"
-scores_blob_name = "scores.pkl"
-invertedindex_blob_name = "inverted_index.pkl"
+idfscores_blob_name = "idfscores.pickle"
+scores_blob_name = "scores.pickle"
+invertedindex_blob_name = "invertedindex.pickle"
 
 #BlobServiceClient object using the connection string
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
@@ -29,25 +30,37 @@ container_client = blob_service_client.get_container_client(container_name)
 
 def QueryResults(search):
     
-    # Download and load the idfscores.pickle file
-    idfscores_blob_client = container_client.get_blob_client(idfscores_blob_name)
-    idfscores_data = idfscores_blob_client.download_blob().readall()
-    idf = pickle.loads(idfscores_data)
-
-    # Download and load the scores.pickle file
-    scores_blob_client = container_client.get_blob_client(scores_blob_name)
-    scores_data = scores_blob_client.download_blob().readall()
-    scores = pickle.loads(scores_data)
-
-    # Download and load the invertedindex.pickle file
-    invertedindex_blob_client = container_client.get_blob_client(invertedindex_blob_name)
-    invertedindex_data = invertedindex_blob_client.download_blob().readall()
-    invertedindex = pickle.loads(invertedindex_data)
     #print(data)
     
     qr=search #Query from the web page
     #qr=r'C:\Users\zainh\Desktop\qquery.txt'
     query=func.query_preproces(qr)  # Preprocess the Query 
+    
+    idfscores_blob_client = blob_service_client.get_blob_client(container=container_name, blob=idfscores_blob_name)
+    idfscores_data = idfscores_blob_client.download_blob().readall()
+    # Create a file-like object from the pickled data
+    idfscores_data_stream = io.BytesIO(idfscores_data)
+    idf = pickle.load(idfscores_data_stream)
+    
+    scores_blob_client = blob_service_client.get_blob_client(container=container_name, blob=scores_blob_name)
+    scores_data = scores_blob_client.download_blob().readall()
+
+    # Create a file-like object from the pickled data for scores 
+    scores_data_stream = io.BytesIO(scores_data)
+
+    # Load the deserialized scores using pickle.load()
+    scores = pickle.load(scores_data_stream)
+
+    # Get the blob client and download the pickled data for inverted index
+    invertedindex_blob_client = blob_service_client.get_blob_client(container=container_name, blob=invertedindex_blob_name)
+    invertedindex_data = invertedindex_blob_client.download_blob().readall()
+
+    # Create a file-like object from the pickled data for inverted index
+    invertedindex_data_stream = io.BytesIO(invertedindex_data)
+
+    # Load the deserialized inverted index using pickle.load()
+    invertedindex = pickle.load(invertedindex_data_stream)
+    
     #with open("idfscores.pickle", "rb") as file:
     #    idf = pickle.load(file)
         
