@@ -1,5 +1,5 @@
 
-Vertical Search Engine for Coventry University's School of Economics, Finance, and Accounting<br />
+### Vertical Search Engine for Coventry University's School of Economics, Finance, and Accounting<br />
 This project developed a vertical search engine for Coventry University's School of Economics, Finance, and Accounting. The search engine incorporated web scraping, inverted index, and query processor using Beautiful Soup and Flask. The web scraper was deployed on Azure Function for efficient scaling, cost optimization, and scheduled automation of web scraping. Scraped data was stored securely and reliably on Azure Blob storage. The web application was successfully deployed on Azure cloud as a Web App for seamless availability and scalability.<br />
 
 **The website can be accessed at the following link:**
