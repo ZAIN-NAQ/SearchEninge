@@ -10,4 +10,4 @@ Using technologies such as Beautiful Soup and Flask, the project implemented web
 
 In summary, this project developed a specialized search engine for Coventry University's School of Economics, Finance, and Accounting. By leveraging a web scraper to extract data, performing ETL transformations, and utilizing Azure cloud services, the search engine provided accurate results and secure data storage.
 
-![Project Diagram](templates/Vertical Search Engine .png)
+![Project Diagram](https://github.com/ZAIN-NAQ/SearchEninge/blob/main/templates/Vertical%20Search%20Engine%20.png)
