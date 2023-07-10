@@ -9,4 +9,5 @@ To enable efficient scaling and automation of the data extraction process, the w
 Using technologies such as Beautiful Soup and Flask, the project implemented web scraping, inverted index, and query processing functionalities. The resulting web application, deployed on Azure cloud as a Web App, offered seamless availability and scalability to users.
 
 In summary, this project developed a specialized search engine for Coventry University's School of Economics, Finance, and Accounting. By leveraging a web scraper to extract data, performing ETL transformations, and utilizing Azure cloud services, the search engine provided accurate results and secure data storage.
-![Image Description](image_filename.extension)
+
+![Prpject Diagram](Vertical Search Engine .png)
